@@ -15,10 +15,6 @@
       integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
       crossorigin="anonymous"
     />
-    <script
-      src="https://kit.fontawesome.com/309c8cc7ed.js"
-      crossorigin="anonymous"
-    ></script>
     <link rel="stylesheet" href="./resources/css/styles.css" />
 
     <title>Vet App</title>
@@ -88,81 +84,42 @@
       <table class="table table-striped">
         <thead class="thead-dark">
           <tr>
-            <th scope="col">id</th>
-            <th scope="col">Name</th>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
             <th scope="col">Owner</th>
-            <th scope="col">Treatment</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <th scope="row">1</th>
-            <td>Shandy</td>
-            <td>Mark Gold</td>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
             <td>
-              <select class="form-control" id="treatmentControlSelect">
-                <option>--</option>
-                <option>Vaccination</option>
-                <option>Minor surgery</option>
-                <option>Castration</option>
-                <option>Regular check</option>
-                <option>Other</option>
-              </select>
-            </td>
-            <td>
-              <button type="button" class="btn btn-info">
-                <i class="far fa-edit"></i>
-              </button>
-              <button type="button" class="btn btn-danger">
-                <i class="far fa-trash-alt"></i>
-              </button>
+              <button type="button" class="btn btn-info">Info</button>
+              <button type="button" class="btn btn-danger">Delete</button>
             </td>
           </tr>
           <tr>
             <th scope="row">2</th>
-            <td>Piña</td>
-            <td>Laurel Peña</td>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
             <td>
-              <select class="form-control" id="treatmentControlSelect">
-                <option>--</option>
-                <option>Vaccination</option>
-                <option>Minor surgery</option>
-                <option>Castration</option>
-                <option>Regular check</option>
-                <option>Other</option>
-              </select>
-            </td>
-            <td>
-              <button type="button" class="btn btn-info">
-                <i class="far fa-edit"></i>
-              </button>
-              <button type="button" class="btn btn-danger">
-                <i class="far fa-trash-alt"></i>
-              </button>
+              <button type="button" class="btn btn-info">Info</button>
+              <button type="button" class="btn btn-danger">Delete</button>
             </td>
           </tr>
           <tr>
             <th scope="row">3</th>
-            <td>Rana</td>
-            <td>Larry Fitzgerald</td>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
             <td>
-              <select class="form-control" id="treatmentControlSelect">
-                <option>--</option>
-                <option>Vaccination</option>
-                <option>Minor surgery</option>
-                <option>Castration</option>
-                <option>Regular check</option>
-                <option>Other</option>
-              </select>
-            </td>
-            <td>
-              <button type="button" class="btn btn-info">
-                <i class="far fa-edit"></i>
-              </button>
-              <button type="button" class="btn btn-danger">
-                <i class="far fa-trash-alt"></i>
-              </button>
+              <button type="button" class="btn btn-info">Info</button>
+              <button type="button" class="btn btn-danger">Delete</button>
             </td>
           </tr>
         </tbody>
@@ -199,7 +156,6 @@
                       <option>Cat</option>
                       <option>Reptile</option>
                       <option>Bird</option>
-                      <option>Other</option>
                     </select>
                   </div>
                 </div>
@@ -209,14 +165,14 @@
                     <input
                       type="text"
                       class="form-control"
-                      placeholder="name"
+                      placeholder="First name"
                     />
                   </div>
                   <div class="col">
                     <input
                       type="text"
                       class="form-control"
-                      placeholder="owner"
+                      placeholder="Last name"
                     />
                   </div>
                 </div>
@@ -250,6 +206,5 @@
       integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
       crossorigin="anonymous"
     ></script>
-    <script src="./resources/js/mascots.js"></script>
   </body>
 </html>
