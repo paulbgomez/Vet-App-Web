@@ -89,83 +89,15 @@
         <thead class="thead-dark">
           <tr>
             <th scope="col">id</th>
+            <th scope="col">Animal</th>
+
             <th scope="col">Name</th>
             <th scope="col">Owner</th>
             <th scope="col">Treatment</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Shandy</td>
-            <td>Mark Gold</td>
-            <td>
-              <select class="form-control" id="treatmentControlSelect">
-                <option>--</option>
-                <option>Vaccination</option>
-                <option>Minor surgery</option>
-                <option>Castration</option>
-                <option>Regular check</option>
-                <option>Other</option>
-              </select>
-            </td>
-            <td>
-              <button type="button" class="btn btn-info">
-                <i class="far fa-edit"></i>
-              </button>
-              <button type="button" class="btn btn-danger">
-                <i class="far fa-trash-alt"></i>
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Piña</td>
-            <td>Laurel Peña</td>
-            <td>
-              <select class="form-control" id="treatmentControlSelect">
-                <option>--</option>
-                <option>Vaccination</option>
-                <option>Minor surgery</option>
-                <option>Castration</option>
-                <option>Regular check</option>
-                <option>Other</option>
-              </select>
-            </td>
-            <td>
-              <button type="button" class="btn btn-info">
-                <i class="far fa-edit"></i>
-              </button>
-              <button type="button" class="btn btn-danger">
-                <i class="far fa-trash-alt"></i>
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Rana</td>
-            <td>Larry Fitzgerald</td>
-            <td>
-              <select class="form-control" id="treatmentControlSelect">
-                <option>--</option>
-                <option>Vaccination</option>
-                <option>Minor surgery</option>
-                <option>Castration</option>
-                <option>Regular check</option>
-                <option>Other</option>
-              </select>
-            </td>
-            <td>
-              <button type="button" class="btn btn-info">
-                <i class="far fa-edit"></i>
-              </button>
-              <button type="button" class="btn btn-danger">
-                <i class="far fa-trash-alt"></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
+        <tbody id="mascots-table"></tbody>
       </table>
 
       <!-- Modal -->
@@ -179,7 +111,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Select a day</h5>
+              <h5 class="modal-title" id="modal-title">New Animal</h5>
               <button
                 type="button"
                 class="close"
@@ -190,10 +122,10 @@
               </button>
             </div>
             <div class="modal-body">
-              <form>
+              <form id="form-modal">
                 <div class="form-row">
                   <div class="col">
-                    <select class="form-control" id="exampleFormControlSelect1">
+                    <select class="form-control" id="type-animal-form">
                       <option>Animal type</option>
                       <option>Dog</option>
                       <option>Cat</option>
@@ -210,6 +142,7 @@
                       type="text"
                       class="form-control"
                       placeholder="name"
+                      id="name-animal-form"
                     />
                   </div>
                   <div class="col">
@@ -217,6 +150,7 @@
                       type="text"
                       class="form-control"
                       placeholder="owner"
+                      id="owner-animal-form"
                     />
                   </div>
                 </div>
