@@ -79,7 +79,7 @@
           type="button"
           class="btn btn-primary btn-lg btn-block"
           data-toggle="modal"
-          data-target="#exampleModal"
+          data-target="#modal"
         >
           Create
         </button>
@@ -103,9 +103,9 @@
       <!-- Modal -->
       <div
         class="modal fade"
-        id="exampleModal"
+        id="modal"
         tabindex="-1"
-        aria-labelledby="exampleModalLabel"
+        aria-labelledby="modalLabel"
         aria-hidden="true"
       >
         <div class="modal-dialog">
@@ -123,16 +123,21 @@
             </div>
             <div class="modal-body">
               <form id="form-modal">
+                <input type="hidden" id="index-modal" />
                 <div class="form-row">
                   <div class="col">
-                    <select class="form-control" id="type-animal-form">
-                      <option>Animal type</option>
+                    <select class="form-control" id="type-animal-form" required>
+                      <option selected disabled value="">Choose...</option>
                       <option>Dog</option>
                       <option>Cat</option>
                       <option>Reptile</option>
                       <option>Bird</option>
                       <option>Other</option>
                     </select>
+                    <div class="invalid-feedback">
+                      Please select a valid type.
+                    </div>
+                    <div class="valid-feedback">Looks good!</div>
                   </div>
                 </div>
                 <br />
@@ -143,7 +148,12 @@
                       class="form-control"
                       placeholder="name"
                       id="name-animal-form"
+                      required
                     />
+                    <div class="invalid-feedback">
+                      Please provide a valid name.
+                    </div>
+                    <div class="valid-feedback">Looks good!</div>
                   </div>
                   <div class="col">
                     <input
@@ -152,21 +162,25 @@
                       placeholder="owner"
                       id="owner-animal-form"
                     />
+                    <div class="invalid-feedback">
+                      Please provide a valid owner.
+                    </div>
+                    <div class="valid-feedback">Looks good!</div>
                   </div>
                 </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button id="submit-btn" type="submit" class="btn btn-primary">
+                    Save
+                  </button>
+                </div>
               </form>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" class="btn btn-primary">
-                Save changes
-              </button>
             </div>
           </div>
         </div>
