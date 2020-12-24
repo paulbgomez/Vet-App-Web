@@ -11,14 +11,34 @@ const submitBtn = document.getElementById('submit-btn');
 /*
  ** @description Immutable object that will not change
  */
-let mascots = [
-  {
-    type: '',
-    name: '',
-    owner: '',
-    index: '',
-  },
-];
+let mascots = [];
+
+/*
+ ** @description function to submit the form with data
+ ** @returns a new array and calls the {function} paintMascots
+ ** @params {e} to prevent the change of URL and auto-submit
+ */
+function submitForm(e) {
+  e.preventDefault();
+  let data = {
+    type: mascotType.value,
+    name: mascotName.value,
+    owner: mascotOwner.value,
+  };
+  const actionToPerform = submitBtn.innerHTML;
+  switch (actionToPerform) {
+    case 'Save changes':
+      mascots[indexModal.value] = data;
+      $('#modal').modal('hide');
+      break;
+    default:
+      mascots.push(data);
+      $('#modal').modal('hide');
+      break;
+  }
+  paintMascots();
+  resetModal();
+}
 
 /*
  ** @description function to render the mascots on the DOM
@@ -29,7 +49,7 @@ function paintMascots() {
   let printMascots = mascots
     .map(
       (mascot, index) =>
-        `<tr>
+        `<tr id="table-row-${index}">
             <th scope="row">${index}</th>
             <td>${mascot.type}</td>
             <td>${mascot.name}</td>
@@ -45,11 +65,11 @@ function paintMascots() {
               </select>
             </td>
             <td>
-              <button type="button" class="btn btn-info edit" data-index=${index} data-toggle="modal"
+              <button id="edit-button" type="button" class="btn btn-info edit" data-index=${index} data-toggle="modal"
                 data-target="#modal">
                 <i class="far fa-edit"></i>
               </button>
-              <button type="button" class="btn btn-danger delete" data-index=${index}>
+              <button id=delete-button" type="button" class="btn btn-danger delete" data-index=${index} onclick="deleteRow()">
                 <i class="far fa-trash-alt"></i>
               </button>
             </td>
@@ -79,39 +99,37 @@ function paintMascots() {
       mascotName.value = mascots[i].name;
       mascotOwner.value = mascots[i].owner;
       mascotType.value = mascots[i].type;
-      indexModal.value = mascots[i];
+      indexModal.value = i;
     };
     return handler;
   }
 
-  function deleteData(element) {
-    const handler = () => console.log(element);
+  /*
+   ** @description function to delete the mascots
+   ** @params {i} the index assigned to the mascots on the HTML
+   */
+  function deleteData(i) {
+    const handler = () => {
+      mascots = mascots.filter((_, mascotIndex) => mascotIndex !== i);
+      deleteRow();
+    };
+    function deleteRow() {
+      const row = document.getElementById(`table-row-${i}`);
+      row.remove();
+    }
     return handler;
   }
 }
 
 /*
- ** @description function to submit the form with data
- ** @returns a new array and calls the {function} paintMascots
- ** @params {e} to prevent the change of URL and auto-submit
+ ** @description function to reset the modal form
+ ** @returns set the modal to '' values
  */
-function submitForm(e) {
-  e.preventDefault();
-  let data = {
-    type: mascotType.value,
-    name: mascotName.value,
-    owner: mascotOwner.value,
-  };
-  const actionToPerform = submitBtn.innerHTML;
-  switch (actionToPerform) {
-    case 'Save changes':
-      console.log(indexModal.value); //need to fix this
-      break;
-    default:
-      mascots.push(data);
-      break;
-  }
-  paintMascots();
+function resetModal() {
+  mascotName.value = '';
+  mascotOwner.value = '';
+  mascotType.value = '';
+  submitBtn.innerHTML = 'Save';
 }
 
 form.onsubmit = submitForm;
