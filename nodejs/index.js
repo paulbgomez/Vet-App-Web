@@ -32,6 +32,10 @@ const server = http.createServer((req, res) => {
   });
   req.on('end', () => {
     buffer += decoder.end();
+
+    if (headers['content-type'] === 'application/json') {
+      buffer = JSON.parse(buffer);
+    }
     //Order data
     const data = {
       path: cleanPath,
@@ -40,6 +44,8 @@ const server = http.createServer((req, res) => {
       headers,
       payload: buffer,
     };
+
+    console.log({ data });
 
     let handler;
     if (cleanPath && router[cleanPath] && router[cleanPath][method]) {
@@ -66,7 +72,8 @@ const router = {
     },
 
     post: (data, cb) => {
-      cb(200, resources.mascots);
+      resources.mascots.push(data.payload);
+      cb(201, data.payload);
     },
   },
   notFound: (data, cb) => {
