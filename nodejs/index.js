@@ -1,6 +1,15 @@
-const { NOTFOUND } = require('dns');
 const http = require('http');
 const { StringDecoder } = require('string_decoder');
+
+let resources = {
+  mascots: [
+    {
+      type: '',
+      name: '',
+      owner: '',
+    },
+  ],
+};
 
 const server = http.createServer((req, res) => {
   const baseURL = 'http://' + req.headers.host + '/';
@@ -33,9 +42,8 @@ const server = http.createServer((req, res) => {
     };
 
     let handler;
-
-    if (cleanPath && router[cleanPath]) {
-      handler = router[cleanPath];
+    if (cleanPath && router[cleanPath] && router[cleanPath][method]) {
+      handler = router[cleanPath][method];
     } else {
       handler = router.notFound;
     }
@@ -43,6 +51,7 @@ const server = http.createServer((req, res) => {
     if (typeof handler === 'function') {
       handler(data, (statusCode = 200, message) => {
         const response = JSON.stringify(message);
+        res.setHeader('Content-Type', 'application/json');
         res.writeHead(statusCode);
         res.end(response);
       });
@@ -51,8 +60,14 @@ const server = http.createServer((req, res) => {
 });
 
 const router = {
-  path: (data, cb) => {
-    cb(200, { message: 'This is router-path' });
+  mascots: {
+    get: (data, cb) => {
+      cb(200, resources.mascots);
+    },
+
+    post: (data, cb) => {
+      cb(200, resources.mascots);
+    },
   },
   notFound: (data, cb) => {
     cb(404, { message: 'Not Found' });
