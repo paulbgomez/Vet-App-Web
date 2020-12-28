@@ -36,7 +36,7 @@ module.exports = function ownersHandler(owners) {
       cb(400, { message: `${index} not found` });
     },
     post: (data, cb) => {
-      owners.push(data.payload);
+      owners = [...owners, data.payload];
       cb(201, data.payload);
     },
   };

@@ -36,7 +36,7 @@ module.exports = function mascotsHandler(mascots) {
       cb(400, { message: `${index} not found` });
     },
     post: (data, cb) => {
-      mascots.push(data.payload);
+      mascots = [...mascots, data.payload];
       cb(201, data.payload);
     },
   };

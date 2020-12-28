@@ -36,7 +36,7 @@ module.exports = function doctorsHandler(doctors) {
       cb(400, { message: `${index} not found` });
     },
     post: (data, cb) => {
-      doctors.push(data.payload);
+      doctors = [...doctors, data.payload];
       cb(201, data.payload);
     },
   };
