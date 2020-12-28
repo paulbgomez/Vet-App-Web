@@ -8,38 +8,59 @@ const mascotType = document.getElementById('type-animal-form');
 const mascotTreatment = document.getElementById('treatmentControlSelect');
 const indexModal = document.getElementById('index-modal');
 const submitBtn = document.getElementById('submit-btn');
+const url = 'http://localhost:5000/mascots';
 
 /*
  ** @description Immutable object that will not change
  */
 let mascots = [];
 
+window.onload = fetchBackend();
 /*
  ** @description function to submit the form with data
  ** @returns a new array and calls the {function} paintMascots
  ** @params {e} to prevent the change of URL and auto-submit
  */
-function submitForm(e) {
+async function submitForm(e) {
   e.preventDefault();
-  let data = {
-    type: mascotType.value,
-    name: mascotName.value,
-    owner: mascotOwner.value,
-    treatment: mascotTreatment.value,
-  };
-  const actionToPerform = submitBtn.innerHTML;
-  switch (actionToPerform) {
-    case 'Save changes':
+  try {
+    let data = {
+      type: mascotType.value,
+      name: mascotName.value,
+      owner: mascotOwner.value,
+      treatment: mascotTreatment.value,
+    };
+    let method = 'POST';
+    let sentURL = url;
+    const actionToPerform = submitBtn.innerHTML;
+    if (actionToPerform === 'Save changes') {
+      method = 'PUT';
       mascots[indexModal.value] = data;
+      sentURL = `${url}/index`;
       $('#modal').modal('hide');
-      break;
-    default:
-      mascots.push(data);
-      $('#modal').modal('hide');
-      break;
+    }
+    const response = await fetch(sentURL, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    if (response.ok) {
+      (async function asyncPaintMascots() {
+        try {
+          await fetchBackend();
+          paintMascots();
+          resetModal();
+          $('#modal').modal('hide');
+        } catch (error) {
+          throw error;
+        }
+      })();
+    }
+  } catch (error) {
+    throw error;
   }
-  paintMascots();
-  resetModal();
 }
 
 /*
@@ -125,6 +146,19 @@ function resetModal() {
   mascotType.value = '';
   mascotTreatment.value = '';
   submitBtn.innerHTML = 'Save';
+}
+
+async function fetchBackend() {
+  try {
+    const fetchMascots = await fetch(url).then((response) => response.json());
+    const backendMascots = fetchMascots;
+    if (Array.isArray(backendMascots) && backendMascots.length > 0) {
+      mascots = backendMascots;
+    }
+    paintMascots();
+  } catch (error) {
+    throw error;
+  }
 }
 
 form.onsubmit = submitForm;

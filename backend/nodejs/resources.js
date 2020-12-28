@@ -4,6 +4,7 @@ module.exports = {
       type: '',
       name: '',
       owner: '',
+      treatment: '',
     },
   ],
   doctors: [

@@ -10,6 +10,20 @@ module.exports = (req, res) => {
   const cleanPath = pathURL.replace(/^\/+|\/+$/g, '');
   //method
   const method = req.method.toLowerCase();
+  //CORS
+
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader(
+    'Access-Control-Request-Methods',
+    'OPTIONS, GET, PUT, POST, DELETE'
+  );
+  res.setHeader('Access-Control-Allow-Headers', '*');
+
+  if (method === 'options') {
+    res.writeHead(200);
+    res.end();
+    return;
+  }
   //headers
   const headers = req.headers;
   //Query variables
