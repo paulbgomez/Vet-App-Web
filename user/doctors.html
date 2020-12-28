@@ -15,6 +15,10 @@
       integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
       crossorigin="anonymous"
     />
+    <script
+      src="https://kit.fontawesome.com/309c8cc7ed.js"
+      crossorigin="anonymous"
+    ></script>
     <link rel="stylesheet" href="./resources/css/styles.css" />
 
     <title>Vet App</title>
@@ -75,7 +79,7 @@
           type="button"
           class="btn btn-primary btn-lg btn-block"
           data-toggle="modal"
-          data-target="#exampleModal"
+          data-target="#modal"
         >
           Create
         </button>
@@ -85,58 +89,27 @@
         <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Owner</th>
+            <th scope="col">Specialty</th>
+            <th scope="col">Name</th>
+            <th scope="col">id</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>
-              <button type="button" class="btn btn-info">Info</button>
-              <button type="button" class="btn btn-danger">Delete</button>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-            <td>
-              <button type="button" class="btn btn-info">Info</button>
-              <button type="button" class="btn btn-danger">Delete</button>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-            <td>
-              <button type="button" class="btn btn-info">Info</button>
-              <button type="button" class="btn btn-danger">Delete</button>
-            </td>
-          </tr>
-        </tbody>
+        <tbody id="doctors-table"></tbody>
       </table>
 
       <!-- Modal -->
       <div
         class="modal fade"
-        id="exampleModal"
+        id="modal"
         tabindex="-1"
-        aria-labelledby="exampleModalLabel"
+        aria-labelledby="modalLabel"
         aria-hidden="true"
       >
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Select a day</h5>
+              <h5 class="modal-title" id="modal-title">New Doctor</h5>
               <button
                 type="button"
                 class="close"
@@ -147,16 +120,27 @@
               </button>
             </div>
             <div class="modal-body">
-              <form>
+              <form id="form-modal">
+                <input type="hidden" id="index-modal" />
                 <div class="form-row">
                   <div class="col">
-                    <select class="form-control" id="exampleFormControlSelect1">
-                      <option>Animal type</option>
-                      <option>Dog</option>
-                      <option>Cat</option>
-                      <option>Reptile</option>
-                      <option>Bird</option>
+                    <select
+                      class="form-control"
+                      id="specialty-doctor-form"
+                      required
+                    >
+                      <option selected disabled value="">Choose...</option>
+                      <option>Surgery</option>
+                      <option>Dermatology</option>
+                      <option>Dentistry</option>
+                      <option>Emergency and Critical Care</option>
+                      <option>Internal Medicine</option>
+                      <option>Behavioral Medicine</option>
                     </select>
+                    <div class="invalid-feedback">
+                      Please select a valid type.
+                    </div>
+                    <div class="valid-feedback">Looks good!</div>
                   </div>
                 </div>
                 <br />
@@ -165,30 +149,42 @@
                     <input
                       type="text"
                       class="form-control"
-                      placeholder="First name"
+                      placeholder="name"
+                      id="name-doctor-form"
+                      required
                     />
+                    <div class="invalid-feedback">
+                      Please provide a valid name.
+                    </div>
+                    <div class="valid-feedback">Looks good!</div>
                   </div>
                   <div class="col">
                     <input
                       type="text"
                       class="form-control"
-                      placeholder="Last name"
+                      placeholder="id"
+                      id="id-doctor-form"
+                      required
                     />
+                    <div class="invalid-feedback">
+                      Please provide a valid id.
+                    </div>
+                    <div class="valid-feedback">Looks good!</div>
                   </div>
                 </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button id="submit-btn" type="submit" class="btn btn-primary">
+                    Save
+                  </button>
+                </div>
               </form>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" class="btn btn-primary">
-                Save changes
-              </button>
             </div>
           </div>
         </div>
@@ -206,5 +202,6 @@
       integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
       crossorigin="anonymous"
     ></script>
+    <script src="./resources/js/doctors.js"></script>
   </body>
 </html>

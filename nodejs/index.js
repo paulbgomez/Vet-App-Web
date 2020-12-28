@@ -1,16 +1,5 @@
 const http = require('http');
 const requestHandler = require('./req-handler');
-
-global.resources = {
-  mascots: [
-    {
-      type: '',
-      name: '',
-      owner: '',
-    },
-  ],
-};
-
 const server = http.createServer(requestHandler);
 
 server.listen(5000, () => {

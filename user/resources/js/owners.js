@@ -2,74 +2,74 @@
  ** @description Variables form HTML
  */
 const form = document.getElementById('form-modal');
-const mascotName = document.getElementById('name-animal-form');
-const mascotOwner = document.getElementById('owner-animal-form');
-const mascotType = document.getElementById('type-animal-form');
-const mascotTreatment = document.getElementById('treatmentControlSelect');
+const ownerName = document.getElementById('name-owner-form');
+const ownerEmail = document.getElementById('email-owner-form');
+const ownerPhone = document.getElementById('phone-owner-form');
+const countryCode = document.getElementById('country-code');
 const indexModal = document.getElementById('index-modal');
 const submitBtn = document.getElementById('submit-btn');
 
 /*
  ** @description Immutable object that will not change
  */
-let mascots = [];
+let owners = [];
 
 /*
  ** @description function to submit the form with data
- ** @returns a new array and calls the {function} paintMascots
+ ** @returns a new array and calls the {function} paintowners
  ** @params {e} to prevent the change of URL and auto-submit
  */
 function submitForm(e) {
   e.preventDefault();
   let data = {
-    type: mascotType.value,
-    name: mascotName.value,
-    owner: mascotOwner.value,
-    treatment: mascotTreatment.value,
+    name: ownerName.value,
+    email: ownerEmail.value,
+    countryCode: '+' + countryCode.value,
+    phone: ownerPhone.value,
   };
   const actionToPerform = submitBtn.innerHTML;
   switch (actionToPerform) {
     case 'Save changes':
-      mascots[indexModal.value] = data;
+      owners[indexModal.value] = data;
       $('#modal').modal('hide');
       break;
     default:
-      mascots.push(data);
+      owners.push(data);
       $('#modal').modal('hide');
       break;
   }
-  paintMascots();
+  paintowners();
   resetModal();
 }
 
 /*
- ** @description function to render the mascots on the DOM
+ ** @description function to render the owners on the DOM
  ** @returns and HTML filled with the data from the form
  */
-function paintMascots() {
-  const tableList = document.getElementById('mascots-table');
-  let printMascots = mascots
+function paintowners() {
+  const tableList = document.getElementById('owners-table');
+  let printowners = owners
     .map(
-      (mascot, index) =>
+      (owner, index) =>
         `<tr id="table-row-${index}">
             <th scope="row">${index}</th>
-            <td>${mascot.type}</td>
-            <td>${mascot.name}</td>
-            <td>${mascot.owner}</td>
-            <td>${mascot.treatment}</td>
+            <td>${owner.name}</td>
+            <td>${owner.email}</td>
+            <td>${owner.countryCode}</td>
+            <td>${owner.phone}</td>
             <td>
-              <button id="edit-button" type="button" class="btn btn-info edit" data-index=${index} data-toggle="modal"
+              <button id="edit-button" specialty="button" class="btn btn-info edit" data-index=${index} data-toggle="modal"
                 data-target="#modal">
                 <i class="far fa-edit"></i>
               </button>
-              <button id="delete-button" type="button" class="btn btn-danger delete" data-index=${index} onclick="deleteRow()">
+              <button id="delete-button" specialty="button" class="btn btn-danger delete" data-index=${index} onclick="deleteRow()">
                 <i class="far fa-trash-alt"></i>
               </button>
             </td>
           </tr>`
     )
     .join('');
-  tableList.innerHTML = printMascots;
+  tableList.innerHTML = printowners;
 
   Array.from(document.getElementsByClassName('btn btn-info edit')).forEach(
     (btnEdit, index) => (btnEdit.onclick = edit(index))
@@ -80,31 +80,31 @@ function paintMascots() {
   );
 
   /*
-   ** @description function to edit the mascots
+   ** @description function to edit the owners
    ** @returns the inside handler function so it will be execute when we click the edit button
-   ** @params {i} the index assigned to the mascots on the HTML
+   ** @params {i} the index assigned to the owners on the HTML
    */
 
   function edit(i) {
     const handler = () => {
       submitBtn.innerHTML = 'Save changes';
       $('#modal').modal('toggle');
-      mascotName.value = mascots[i].name;
-      mascotOwner.value = mascots[i].owner;
-      mascotType.value = mascots[i].type;
-      mascotTreatment.value = mascots[i].treatment;
+      ownerName.value = owners[i].name;
+      ownerEmail.value = owners[i].email;
+      countryCode.value = owners[i].countryCode;
+      ownerPhone.value = owners[i].phone;
       indexModal.value = i;
     };
     return handler;
   }
 
   /*
-   ** @description function to delete the mascots
-   ** @params {i} the index assigned to the mascots on the HTML
+   ** @description function to delete the owners
+   ** @params {i} the index assigned to the owners on the HTML
    */
   function deleteData(i) {
     const handler = () => {
-      mascots = mascots.filter((_, mascotIndex) => mascotIndex !== i);
+      owners = owners.filter((_, ownerIndex) => ownerIndex !== i);
       deleteRow();
     };
     function deleteRow() {
@@ -120,10 +120,9 @@ function paintMascots() {
  ** @returns set the modal to '' values
  */
 function resetModal() {
-  mascotName.value = '';
-  mascotOwner.value = '';
-  mascotType.value = '';
-  mascotTreatment.value = '';
+  ownerName.value = '';
+  ownerEmail.value = '';
+  ownerPhone.value = '';
   submitBtn.innerHTML = 'Save';
 }
 
