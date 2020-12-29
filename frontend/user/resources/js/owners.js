@@ -8,6 +8,7 @@ const ownerPhone = document.getElementById('phone-owner-form');
 const countryCode = document.getElementById('country-code');
 const indexModal = document.getElementById('index-modal');
 const submitBtn = document.getElementById('submit-btn');
+const url = 'http://localhost:5000/owners';
 
 /*
  ** @description Immutable object that will not change
@@ -15,38 +16,65 @@ const submitBtn = document.getElementById('submit-btn');
 let owners = [];
 
 /*
- ** @description function to submit the form with data
- ** @returns a new array and calls the {function} paintowners
+ ** @description Initialize the fetching of the backend and display it
+ */
+window.onload = fetchBackend();
+
+/*
+ ** @description async function to submit the form with data and POST it.
+ ** In case we edit, the method PUT will be called.
+ ** @returns the backend information and paint it in the HTML
  ** @params {e} to prevent the change of URL and auto-submit
  */
-function submitForm(e) {
+async function submitForm(e) {
   e.preventDefault();
-  let data = {
-    name: ownerName.value,
-    email: ownerEmail.value,
-    countryCode: '+' + countryCode.value,
-    phone: ownerPhone.value,
-  };
-  const actionToPerform = submitBtn.innerHTML;
-  switch (actionToPerform) {
-    case 'Save changes':
+  try {
+    let data = {
+      name: ownerName.value,
+      email: ownerEmail.value,
+      countryCode: '+' + countryCode.value,
+      phone: ownerPhone.value,
+    };
+    let method = 'POST';
+    let sentURL = url;
+    const actionToPerform = submitBtn.innerHTML;
+    if (actionToPerform === 'Save changes') {
+      method = 'PUT';
       owners[indexModal.value] = data;
+      sentURL = `${url}/${indexModal.value}`;
       $('#modal').modal('hide');
-      break;
-    default:
-      owners.push(data);
-      $('#modal').modal('hide');
-      break;
+    }
+    const response = await fetch(sentURL, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    if (response.ok) {
+      (async function asyncPaintMascots() {
+        try {
+          await fetchBackend();
+          paintOwners();
+          resetModal();
+          $('#modal').modal('hide');
+        } catch (error) {
+          console.log({ error });
+          $('.alert').show();
+        }
+      })();
+    }
+  } catch (error) {
+    console.log({ error });
+    $('.alert').show();
   }
-  paintowners();
-  resetModal();
 }
 
 /*
  ** @description function to render the owners on the DOM
  ** @returns and HTML filled with the data from the form
  */
-function paintowners() {
+function paintOwners() {
   const tableList = document.getElementById('owners-table');
   let printowners = owners
     .map(
@@ -62,7 +90,7 @@ function paintowners() {
                 data-target="#modal">
                 <i class="far fa-edit"></i>
               </button>
-              <button id="delete-button" specialty="button" class="btn btn-danger delete" data-index=${index} onclick="deleteRow()">
+              <button id="delete-button" specialty="button" class="btn btn-danger delete" data-index=${index} >
                 <i class="far fa-trash-alt"></i>
               </button>
             </td>
@@ -103,15 +131,30 @@ function paintowners() {
    ** @params {i} the index assigned to the owners on the HTML
    */
   function deleteData(i) {
-    const handler = () => {
-      owners = owners.filter((_, ownerIndex) => ownerIndex !== i);
-      deleteRow();
+    const row = document.getElementById(`table-row-${i}`);
+    let sentURL = `${url}/${i}`;
+    return async function handler() {
+      try {
+        const response = await fetch(sentURL, {
+          method: 'DELETE',
+        });
+        if (response.ok) {
+          (async function displayActualDoctors() {
+            try {
+              await fetchBackend();
+              row.remove();
+              paintOwners();
+            } catch (error) {
+              console.log({ error });
+              $('.alert').show();
+            }
+          })();
+        }
+      } catch (error) {
+        console.log({ error });
+        $('.alert').show();
+      }
     };
-    function deleteRow() {
-      const row = document.getElementById(`table-row-${i}`);
-      row.remove();
-    }
-    return handler;
   }
 }
 
@@ -124,6 +167,20 @@ function resetModal() {
   ownerEmail.value = '';
   ownerPhone.value = '';
   submitBtn.innerHTML = 'Save';
+}
+
+async function fetchBackend() {
+  try {
+    const fetchOwners = await fetch(url).then((response) => response.json());
+    const backendOwners = fetchOwners;
+    if (Array.isArray(backendOwners)) {
+      owners = backendOwners;
+      paintOwners();
+    }
+  } catch (error) {
+    console.log({ error });
+    $('.alert').show();
+  }
 }
 
 form.onsubmit = submitForm;

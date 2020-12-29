@@ -36,7 +36,6 @@ async function submitForm(e) {
     if (actionToPerform === 'Save changes') {
       method = 'PUT';
       mascots[indexModal.value] = data;
-      console.log(data);
       sentURL = `${url}/${indexModal.value}`;
       $('#modal').modal('hide');
     }
@@ -86,7 +85,7 @@ function paintMascots() {
                 data-target="#modal">
                 <i class="far fa-edit"></i>
               </button>
-              <button id="delete-button" type="button" class="btn btn-danger delete" data-index=${index} onclick="deleteRow()">
+              <button id="delete-button" type="button" class="btn btn-danger delete" data-index=${index} >
                 <i class="far fa-trash-alt"></i>
               </button>
             </td>
@@ -127,7 +126,7 @@ function paintMascots() {
    ** @params {i} the index assigned to the mascots on the HTML
    */
   function deleteData(i) {
-    sentURL = `${url}/${i}`;
+    let sentURL = `${url}/${i}`;
     return async function handler() {
       try {
         const response = await fetch(sentURL, {

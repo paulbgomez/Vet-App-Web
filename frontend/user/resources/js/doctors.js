@@ -7,6 +7,7 @@ const doctorID = document.getElementById('id-doctor-form');
 const doctorSpecialty = document.getElementById('specialty-doctor-form');
 const indexModal = document.getElementById('index-modal');
 const submitBtn = document.getElementById('submit-btn');
+const url = 'http://localhost:5000/doctors';
 
 /*
  ** @description Immutable object that will not change
@@ -14,37 +15,64 @@ const submitBtn = document.getElementById('submit-btn');
 let doctors = [];
 
 /*
- ** @description function to submit the form with data
- ** @returns a new array and calls the {function} paintdoctors
+ ** @description Initialize the fetching of the backend and display it
+ */
+window.onload = fetchBackend();
+
+/*
+ ** @description async function to submit the form with data and POST it.
+ ** In case we edit, the method PUT will be called.
+ ** @returns the backend information and paint it in the HTML
  ** @params {e} to prevent the change of URL and auto-submit
  */
-function submitForm(e) {
+async function submitForm(e) {
   e.preventDefault();
-  let data = {
-    specialty: doctorSpecialty.value,
-    name: doctorName.value,
-    id: doctorID.value,
-  };
-  const actionToPerform = submitBtn.innerHTML;
-  switch (actionToPerform) {
-    case 'Save changes':
+  try {
+    let data = {
+      name: doctorName.value,
+      id: doctorID.value,
+      specialty: doctorSpecialty.value,
+    };
+    let method = 'POST';
+    let sentURL = url;
+    const actionToPerform = submitBtn.innerHTML;
+    if (actionToPerform === 'Save changes') {
+      method = 'PUT';
       doctors[indexModal.value] = data;
+      sentURL = `${url}/${indexModal.value}`;
       $('#modal').modal('hide');
-      break;
-    default:
-      doctors.push(data);
-      $('#modal').modal('hide');
-      break;
+    }
+    const response = await fetch(sentURL, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    if (response.ok) {
+      (async function asyncPaintMascots() {
+        try {
+          await fetchBackend();
+          paintDoctors();
+          resetModal();
+          $('#modal').modal('hide');
+        } catch (error) {
+          console.log({ error });
+          $('.alert').show();
+        }
+      })();
+    }
+  } catch (error) {
+    console.log({ error });
+    $('.alert').show();
   }
-  paintdoctors();
-  resetModal();
 }
 
 /*
  ** @description function to render the doctors on the DOM
  ** @returns and HTML filled with the data from the form
  */
-function paintdoctors() {
+function paintDoctors() {
   const tableList = document.getElementById('doctors-table');
   let printdoctors = doctors
     .map(
@@ -59,7 +87,7 @@ function paintdoctors() {
                 data-target="#modal">
                 <i class="far fa-edit"></i>
               </button>
-              <button id="delete-button" specialty="button" class="btn btn-danger delete" data-index=${index} onclick="deleteRow()">
+              <button id="delete-button" specialty="button" class="btn btn-danger delete" data-index=${index} >
                 <i class="far fa-trash-alt"></i>
               </button>
             </td>
@@ -99,15 +127,30 @@ function paintdoctors() {
    ** @params {i} the index assigned to the doctors on the HTML
    */
   function deleteData(i) {
-    const handler = () => {
-      doctors = doctors.filter((_, doctorIndex) => doctorIndex !== i);
-      deleteRow();
+    const row = document.getElementById(`table-row-${i}`);
+    let sentURL = `${url}/${i}`;
+    return async function handler() {
+      try {
+        const response = await fetch(sentURL, {
+          method: 'DELETE',
+        });
+        if (response.ok) {
+          (async function displayActualDoctors() {
+            try {
+              await fetchBackend();
+              row.remove();
+              paintDoctors();
+            } catch (error) {
+              console.log({ error });
+              $('.alert').show();
+            }
+          })();
+        }
+      } catch (error) {
+        console.log({ error });
+        $('.alert').show();
+      }
     };
-    function deleteRow() {
-      const row = document.getElementById(`table-row-${i}`);
-      row.remove();
-    }
-    return handler;
   }
 }
 
@@ -120,6 +163,20 @@ function resetModal() {
   doctorID.value = '';
   doctorSpecialty.value = '';
   submitBtn.innerHTML = 'Save';
+}
+
+async function fetchBackend() {
+  try {
+    const fetchDoctors = await fetch(url).then((response) => response.json());
+    const backendDoctors = fetchDoctors;
+    if (Array.isArray(backendDoctors)) {
+      doctors = backendDoctors;
+      paintDoctors();
+    }
+  } catch (error) {
+    console.log({ error });
+    $('.alert').show();
+  }
 }
 
 form.onsubmit = submitForm;
