@@ -20,7 +20,6 @@
       crossorigin="anonymous"
     ></script>
     <link rel="stylesheet" href="/frontend/user/resources/css/styles.css" />
-
     <title>Vet App</title>
   </head>
   <body>
@@ -45,17 +44,15 @@
             <li class="nav-item">
               <a class="nav-link" href="/frontend/user/index.html"> Home </a>
             </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="/frontend/user/doctors.html"
-                >Doctors<span class="sr-only">(current)</span></a
-              >
+            <li class="nav-item">
+              <a class="nav-link" href="/frontend/user/doctors.html">Doctors</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/frontend/user/owners.html">Owners</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
               <a class="nav-link" href="/frontend/user/consults.html"
-                >Consults</a
+                >Consults<span class="sr-only">(current)</span></a
               >
             </li>
             <li class="nav-item">
@@ -107,13 +104,15 @@
         <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Specialty</th>
-            <th scope="col">Name</th>
-            <th scope="col">id</th>
+            <th scope="col">Mascot</th>
+            <th scope="col">Doctor</th>
+            <th scope="col">Creation Date</th>
+            <th scope="col">Edition Date</th>
+            <th scope="col">Diagnostic</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
-        <tbody id="doctors-table"></tbody>
+        <tbody id="consults-table"></tbody>
       </table>
 
       <!-- Modal -->
@@ -127,7 +126,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="modal-title">New Doctor</h5>
+              <h5 class="modal-title" id="modal-title">New Consult</h5>
               <button
                 type="button"
                 class="close"
@@ -142,53 +141,32 @@
                 <input type="hidden" id="index-modal" />
                 <div class="form-row">
                   <div class="col">
-                    <select
-                      class="form-control"
-                      id="specialty-doctor-form"
-                      required
-                    >
-                      <option selected disabled value="">Choose...</option>
-                      <option>Surgery</option>
-                      <option>Dermatology</option>
-                      <option>Dentistry</option>
-                      <option>Emergency and Critical Care</option>
-                      <option>Internal Medicine</option>
-                      <option>Behavioral Medicine</option>
+                    <select class="form-control" id="mascot">
+                      <option>Select a Mascot</option>
                     </select>
                     <div class="invalid-feedback">
-                      Please select a valid type.
-                    </div>
-                    <div class="valid-feedback">Looks good!</div>
-                  </div>
-                </div>
-                <br />
-                <div class="form-row">
-                  <div class="col">
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="name"
-                      id="name-doctor-form"
-                      required
-                    />
-                    <div class="invalid-feedback">
-                      Please provide a valid name.
+                      Please select a valid name.
                     </div>
                     <div class="valid-feedback">Looks good!</div>
                   </div>
                   <div class="col">
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="id"
-                      id="id-doctor-form"
-                      required
-                    />
+                    <select class="form-control" id="doctor">
+                      <option>Select a Doctor</option>
+                    </select>
                     <div class="invalid-feedback">
                       Please provide a valid id.
                     </div>
                     <div class="valid-feedback">Looks good!</div>
                   </div>
+                </div>
+                <br />
+                <div class="form-group">
+                  <label for="text-area-diagnostic">Diagnostic</label>
+                  <textarea
+                    class="form-control"
+                    id="text-area-diagnostic"
+                    rows="3"
+                  ></textarea>
                 </div>
                 <div class="modal-footer">
                   <button
@@ -220,6 +198,6 @@
       integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
       crossorigin="anonymous"
     ></script>
-    <script src="/frontend/user/resources/js/doctors.js"></script>
+    <script src="/frontend/user/resources/js/consults.js"></script>
   </body>
 </html>

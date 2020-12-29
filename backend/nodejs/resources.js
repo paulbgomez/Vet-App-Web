@@ -21,4 +21,13 @@ module.exports = {
       phone: '',
     },
   ],
+  consults: [
+    {
+      mascot: '',
+      doctor: '',
+      creationDate: new Date(),
+      editionDate: new Date(),
+      diagnostic: '',
+    },
+  ],
 };
