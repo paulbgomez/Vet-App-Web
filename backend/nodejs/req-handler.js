@@ -17,6 +17,10 @@ module.exports = (req, res) => {
     'Access-Control-Request-Methods',
     'OPTIONS, GET, PUT, POST, DELETE'
   );
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'OPTIONS, GET, PUT, POST, DELETE'
+  );
   res.setHeader('Access-Control-Allow-Headers', '*');
 
   if (method === 'options') {

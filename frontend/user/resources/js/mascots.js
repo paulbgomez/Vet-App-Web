@@ -36,7 +36,8 @@ async function submitForm(e) {
     if (actionToPerform === 'Save changes') {
       method = 'PUT';
       mascots[indexModal.value] = data;
-      sentURL = `${url}/index`;
+      console.log(data);
+      sentURL = `${url}/${indexModal.value}`;
       $('#modal').modal('hide');
     }
     const response = await fetch(sentURL, {
@@ -54,12 +55,14 @@ async function submitForm(e) {
           resetModal();
           $('#modal').modal('hide');
         } catch (error) {
-          throw error;
+          console.log({ error });
+          $('.alert').show();
         }
       })();
     }
   } catch (error) {
-    throw error;
+    console.log({ error });
+    $('.alert').show();
   }
 }
 
@@ -124,15 +127,23 @@ function paintMascots() {
    ** @params {i} the index assigned to the mascots on the HTML
    */
   function deleteData(i) {
-    const handler = () => {
-      mascots = mascots.filter((_, mascotIndex) => mascotIndex !== i);
-      deleteRow();
+    sentURL = `${url}/${i}`;
+    return async function handler() {
+      try {
+        const response = await fetch(sentURL, {
+          method: 'DELETE',
+        });
+        const row = document.getElementById(`table-row-${i}`);
+        row.remove();
+        if (response.ok) {
+          fetchBackend();
+          paintMascots();
+        }
+      } catch (error) {
+        console.log({ error });
+        $('.alert').show();
+      }
     };
-    function deleteRow() {
-      const row = document.getElementById(`table-row-${i}`);
-      row.remove();
-    }
-    return handler;
   }
 }
 
@@ -152,12 +163,13 @@ async function fetchBackend() {
   try {
     const fetchMascots = await fetch(url).then((response) => response.json());
     const backendMascots = fetchMascots;
-    if (Array.isArray(backendMascots) && backendMascots.length > 0) {
+    if (Array.isArray(backendMascots)) {
       mascots = backendMascots;
+      paintMascots();
     }
-    paintMascots();
   } catch (error) {
-    throw error;
+    console.log({ error });
+    $('.alert').show();
   }
 }
 

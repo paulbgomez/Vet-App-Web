@@ -1,3 +1,7 @@
 .create-div {
   padding: 40px 30px;
 }
+
+.alert {
+  display: none;
+}
