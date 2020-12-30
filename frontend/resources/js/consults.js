@@ -7,7 +7,7 @@ const submitBtn = document.getElementById('submit-btn');
 const diagnostic = document.getElementById('text-area-diagnostic');
 const mascot = document.getElementById('mascot');
 const doctor = document.getElementById('doctor');
-const url = 'https://vet-app-backend.vercel.app/';
+const url = 'https://vet-app-backend.vercel.app';
 
 let consults = [];
 let mascots = [];

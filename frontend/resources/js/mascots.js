@@ -8,7 +8,7 @@ const mascotType = document.getElementById('type-animal-form');
 const mascotTreatment = document.getElementById('treatmentControlSelect');
 const indexModal = document.getElementById('index-modal');
 const submitBtn = document.getElementById('submit-btn');
-const url = 'https://vet-app-backend.vercel.app//mascots';
+const url = 'https://vet-app-backend.vercel.app/mascots';
 
 /*
  ** @description Immutable object that will not change
