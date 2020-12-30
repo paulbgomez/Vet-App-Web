@@ -4,12 +4,62 @@
 const form = document.getElementById('form-modal');
 const indexModal = document.getElementById('index-modal');
 const submitBtn = document.getElementById('submit-btn');
+const diagnostic = document.getElementById('text-area-diagnostic');
+const mascot = document.getElementById('mascot');
+const doctor = document.getElementById('doctor');
 const url = 'http://localhost:5000';
 
 let consults = [];
 let mascots = [];
 let doctors = [];
 
+/*
+ ** @description async function to submit the form with data and POST it.
+ ** In case we edit, the method PUT will be called.
+ ** @returns the backend information and paint it in the HTML
+ ** @params {e} to prevent the change of URL and auto-submit
+ */
+async function submitForm(e) {
+  e.preventDefault();
+  const entity = 'consults';
+  try {
+    let data = {
+      mascot: mascot.value,
+      doctor: doctor.value,
+      diagnostic: diagnostic.value,
+    };
+    let method = 'POST';
+    let sentURL = `${url}/${entity}`;
+    const actionToPerform = submitBtn.innerHTML;
+    if (actionToPerform === 'Save changes') {
+      method = 'PUT';
+      consults[indexModal.value] = data;
+      sentURL = `${url}/${indexModal.value}`;
+      $('#modal').modal('hide');
+      console.log(data);
+    }
+    const response = await fetch(sentURL, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    if (response.ok) {
+      paintConsults();
+      resetModal();
+      $('#modal').modal('hide');
+    }
+  } catch (error) {
+    console.log({ error });
+    $('.alert-danger').show();
+  }
+}
+
+/*
+ ** @description function to render the consults on the DOM
+ ** @returns and HTML filled with the data
+ */
 async function paintConsults() {
   const entity = 'consults';
   const tableConsults = document.getElementById('consults-table');
@@ -22,7 +72,6 @@ async function paintConsults() {
       consults = fetchedConsults;
     }
     if (response) {
-      console.log(consults);
       const printConsults = consults
         .map(
           (consult, index) =>
@@ -49,6 +98,11 @@ async function paintConsults() {
       (btnEdit, index) => (btnEdit.onclick = edit(index))
     );
 
+    /*
+     ** @description function to edit the consults
+     ** @returns the inside handler function so it will be execute when we click the edit button
+     ** @params {i} the index assigned to the doctors on the HTML
+     */
     function edit(i) {
       const handler = () => {
         submitBtn.innerHTML = 'Save changes';
@@ -62,12 +116,12 @@ async function paintConsults() {
       return handler;
     }
   } catch (error) {
-    throw error;
+    console.log({ error });
+    $('.alert-danger').show();
   }
 }
 
 async function listMascots() {
-  const optionMascot = document.getElementById('mascot');
   const entity = 'mascots';
   try {
     const answer = await fetch(`${url}/${entity}`).then((response) =>
@@ -76,23 +130,22 @@ async function listMascots() {
     const fetchedMascots = answer;
     if (Array.isArray(fetchedMascots)) {
       mascots = fetchedMascots;
-      console.log(mascots);
     }
     if (answer) {
       mascots.forEach((_mascot, index) => {
         const actualOption = document.createElement('option');
         actualOption.innerHTML = _mascot.name;
         actualOption.value = index;
-        optionMascot.appendChild(actualOption);
+        mascot.appendChild(actualOption);
       });
     }
   } catch (error) {
-    throw error;
+    console.log({ error });
+    $('.alert-danger').show();
   }
 }
 
 async function listDoctors() {
-  const optionDoctor = document.getElementById('doctor');
   const entity = 'doctors';
   try {
     const response = await fetch(`${url}/${entity}`).then((response) =>
@@ -101,21 +154,35 @@ async function listDoctors() {
     const fetchedDoctors = response;
     if (Array.isArray(fetchedDoctors)) {
       doctors = fetchedDoctors;
-      console.log(doctors);
     }
     if (response) {
       doctors.forEach((_doctor, index) => {
         const actualOption = document.createElement('option');
         actualOption.innerHTML = _doctor.name;
         actualOption.value = index;
-        optionDoctor.appendChild(actualOption);
+        doctor.appendChild(actualOption);
       });
     }
   } catch (error) {
-    throw error;
+    console.log({ error });
+    $('.alert-danger').show();
   }
 }
 
+/*
+ ** @description function to reset the modal form
+ ** @returns set the modal to '' values
+ */
+
+function resetModal() {
+  mascot.value = '';
+  doctor.value = '';
+  diagnostic.value = '';
+  submitBtn.innerHTML = 'Save';
+}
+
+form.onsubmit = submitForm;
+
+paintConsults();
 listDoctors();
 listMascots();
-paintConsults();

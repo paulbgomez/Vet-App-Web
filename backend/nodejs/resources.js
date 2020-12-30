@@ -1,17 +1,23 @@
 module.exports = {
   mascots: [
     {
-      type: '',
-      name: '',
-      owner: '',
-      treatment: '',
+      type: 'Dog',
+      name: 'Rana',
+      owner: 'Natalia',
+      treatment: 'Vaccination',
+    },
+    {
+      type: 'Cat',
+      name: 'Celeste',
+      owner: 'Paul',
+      treatment: 'Surgery',
     },
   ],
   doctors: [
     {
-      id: '',
-      name: '',
-      specialty: '',
+      name: 'Paul',
+      id: '123456',
+      specialty: 'Dentistry',
     },
   ],
   owners: [
@@ -23,8 +29,8 @@ module.exports = {
   ],
   consults: [
     {
-      mascot: '',
-      doctor: '',
+      mascot: 0,
+      doctor: 0,
       creationDate: new Date(),
       editionDate: new Date(),
       diagnostic: '',

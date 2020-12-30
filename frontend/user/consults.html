@@ -137,12 +137,12 @@
               </button>
             </div>
             <div class="modal-body">
-              <form id="form-modal">
+              <form class="needs-validation" id="form-modal">
                 <input type="hidden" id="index-modal" />
                 <div class="form-row">
                   <div class="col">
-                    <select class="form-control" id="mascot">
-                      <option>Select a Mascot</option>
+                    <select class="form-control" id="mascot" required>
+                      <option value="">Select a Mascot</option>
                     </select>
                     <div class="invalid-feedback">
                       Please select a valid name.
@@ -150,8 +150,8 @@
                     <div class="valid-feedback">Looks good!</div>
                   </div>
                   <div class="col">
-                    <select class="form-control" id="doctor">
-                      <option>Select a Doctor</option>
+                    <select class="form-control" id="doctor" required>
+                      <option value="">Select a Doctor</option>
                     </select>
                     <div class="invalid-feedback">
                       Please provide a valid id.
@@ -166,6 +166,8 @@
                     class="form-control"
                     id="text-area-diagnostic"
                     rows="3"
+                    value=""
+                    required
                   ></textarea>
                 </div>
                 <div class="modal-footer">
