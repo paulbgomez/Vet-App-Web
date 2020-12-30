@@ -8,7 +8,7 @@ const ownerPhone = document.getElementById('phone-owner-form');
 const countryCode = document.getElementById('country-code');
 const indexModal = document.getElementById('index-modal');
 const submitBtn = document.getElementById('submit-btn');
-const url = 'http://localhost:5000/owners';
+const url = 'https://vet-app-backend.vercel.app//owners';
 
 /*
  ** @description Immutable object that will not change

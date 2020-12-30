@@ -7,7 +7,7 @@ const doctorID = document.getElementById('id-doctor-form');
 const doctorSpecialty = document.getElementById('specialty-doctor-form');
 const indexModal = document.getElementById('index-modal');
 const submitBtn = document.getElementById('submit-btn');
-const url = 'http://localhost:5000/doctors';
+const url = 'https://vet-app-backend.vercel.app//doctors';
 
 /*
  ** @description Immutable object that will not change
